@@ -1,0 +1,61 @@
+import pandas as pd 
+#Load Titanic dataset from a URL
+url = 'https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv'
+df = pd.read_csv('https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv')
+
+#Display the first 5 rows of the dataset
+print(df.head)
+
+#To understand structure and contents
+#Display basic information about the dataset
+print(df.info())
+
+#Display summary statistics for numerical columns
+print(df.describe())
+
+#Check for missing values
+print(df.isnull().sum())
+
+# DATA CLEANING
+
+# Fill missing 'Age' values with the median age
+df['Age'].fillna(df['Age'].median(), inplace=True)
+
+# Fill missing 'Embarked' values with the most common value
+df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)
+
+# Drop the 'Cabin' column (too many missing values)
+df.drop('Cabin', axis=1, inplace=True)
+
+# Verify that there are no missing values left
+print(df.isnull().sum())
+
+# DATA MANIPULATION
+
+# Filter rows where Age is greater than 30
+adults = df[df['Age'] > 30]
+print(adults.head())
+
+# Group data by 'Sex' and calculate the mean survival rate
+survival_rate_by_gender = df.groupby('Sex')['Survived'].mean()
+print(survival_rate_by_gender)
+
+# Create a new column: FamilySize (SibSp + Parch)
+df['FamilySize'] = df['SibSp'] + df['Parch']
+print(df.head())
+
+# Basic Data Analysis
+# Calculate the overall survival rate
+overall_survival_rate = df['Survived'].mean()
+print(f"Overall Survival Rate: {overall_survival_rate:.2%}")
+
+# Calculate survival rate by passenger class
+survival_rate_by_class = df.groupby('Pclass')['Survived'].mean()
+print(survival_rate_by_class)
+
+# Calculate average fare by passenger class
+average_fare_by_class = df.groupby('Pclass')['Fare'].mean()
+print(average_fare_by_class)
+
+# Save the cleaned dataset to a new CSV file
+df.to_csv('cleaned_titanic.csv', index=False)
