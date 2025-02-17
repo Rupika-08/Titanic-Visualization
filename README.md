@@ -6,4 +6,4 @@ This project visualizes key insights from the Titanic dataset using Python libra
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/titanic-dataset-visualization.git
+   git clone https://github.com/Rupika-08/Titanic-Visualization.git
